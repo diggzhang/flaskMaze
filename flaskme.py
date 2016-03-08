@@ -74,7 +74,7 @@ def trackuser():
         eventsList.append(event)
     return render_template('trackme.html', eventsFlow=eventsList)
 
-@app.route('/home/', methods=['GET'])
+@app.route('/', methods=['GET'])
 def homePage():
     if request.method == 'GET':
         return render_template('home.html')
