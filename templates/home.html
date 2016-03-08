@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Maze</title>
+    <link rel="stylesheet" type="text/css" href='/static/semantic.min.css'>
+    <script src="/static/semantic.min.js"></script>
+    <style media="screen">
+        .topmargin {
+            margin-top: 100px
+        }
+    </style>
+</head>
+
+<body>
+    <div class="ui text container topmargin">
+      <h1 class="ui dividing header">Track User Events</h1>
+
+      <h3 class="first">说明</h3>
+      <p>输入用户名，<del>按照eventTime排序</del>，去掉了site类埋点</p>
+
+      <div class="ui container">
+        <div class="ui segments">
+          <div class="ui segment">
+              <div class="ui icon input">
+                  <form action="/trackme/" method="post">
+                      <input type="text" name="projectFilepath">
+                      <input type="submit" value="Search">
+                  </form>
+              </div>
+          </div>
+        </div>
+      </div>
+  </div>
+</body>
+</html>

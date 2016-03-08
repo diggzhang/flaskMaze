@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Track Me</title>
+    <link rel="stylesheet" type="text/css" href='/static/semantic.min.css'>
+    <script src="/static/semantic.min.js"></script>
+    <style media="screen">
+        .topmargin {
+            margin-top: 30px
+        }
+    </style>
+</head>
+<body>
+<div class="ui container topmargin">
+    <h1>
+        {{ msg }}
+    </h1>
+    <table class="ui teal table">
+        <thead>
+            <tr>
+                <th>Time</th>
+                <th>eventKey</th>
+                <th>deviceId</th>
+                <th>platform2</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for event in eventsFlow %}
+            <tr>
+                <td> {{event.serverTime}} </td>
+                <td> {{event.eventKey}} </td>
+                <td> {{event.device}} </td>
+                <td> {{event.platform2}} </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</div>
+    <hr>
+    <!-- {{ eventsFlow }} -->
+</body>
+</html>
