@@ -2,7 +2,7 @@ from flask import Flask, request
 import json
 from bson import json_util
 from bson.objectid import ObjectId
-from pymongo import Connection
+from pymongo import Connection,  ASCENDING
 from flask import render_template
 from flask_wtf import Form
 from wtforms import StringField
@@ -12,10 +12,11 @@ from wtforms.validators import DataRequired
 app = Flask(__name__, static_url_path='/static')
 app.debug = True
 
+dbHost = "10.8.8.111"
 # MongoDB connection
-connection = Connection('10.8.8.111', 27017)
+connection = Connection(dbHost, 27017)
 db = connection.onionsBackupOnline
-print("connect to database --> ")
+print("connect to database --> %s")%dbHost
 
 def toJson(data):
     """Convert Mongo object(s) to JSON"""
@@ -53,7 +54,7 @@ def trackme(name):
     if request.method == 'GET':
         result = db['users'].find_one({'name': name})
         userId = result['_id']
-        events = db['events'].find({'user': userId}).limit(50)
+        events = db['events'].find({'user': userId}).limit(40)
         eventsList = []
         for event in events:
             eventsList.append(event)
@@ -62,17 +63,18 @@ def trackme(name):
 
 @app.route('/trackme/', methods=['POST'])
 def trackuser():
-    name = request.form['projectFilepath']
+    name = request.form['username']
     result = db['users'].find_one({'name': name})
     if result == None:
-        msg = "Not found this user name"
+        msg = "the username not found"
         return render_template('trackme.html', msg=msg)
     userId = result['_id']
     events = db['events'].find({'user': userId, "category": {"$nin":["site"]} }).limit(50)
     eventsList = []
     for event in events:
         eventsList.append(event)
-    return render_template('trackme.html', eventsFlow=eventsList)
+    sortedList = sorted(eventsList, key=lambda k: k['eventTime'])
+    return render_template('trackme.html', eventsFlow=sortedList)
 
 @app.route('/', methods=['GET'])
 def homePage():
